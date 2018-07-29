@@ -30,5 +30,5 @@ variable "private_key_path" {
 
 variable "base_image" {
   description = "Name of Base Image for Packer Run"
-  default = "centos-7-v20180716"
+  default = "acme-centos7-base-1532890087"
 }
