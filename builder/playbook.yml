@@ -1,0 +1,12 @@
+---
+- hosts: all
+  roles:
+    - verygood.cis
+    - ansible-fail2ban
+    - { role: verygood.ossec-agent,
+        ossec_agent_register: no
+      }
+    - aws-inspector
+    - monit
+    - fluentd
+    - ntp

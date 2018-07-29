@@ -15,12 +15,17 @@
     }
   ],
   "provisioners": [
-      {
-           "type": "shell",
-           "inline": [
-                  "echo -n 'Hello World'",
-                  "echo 'test' > /tmp/test.txt"
-           ]
-      }
+    {
+      "type": "file",
+      "source": "builder",
+      "destination": "/tmp/"
+    },
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo {{ .Path }}",
+      "scripts": [
+        "builder/builder.sh"
+      ]
+    }
   ]
 }
