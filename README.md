@@ -1,4 +1,4 @@
-Google Compute Autoscaling with Terraform and Packer
+Google Compute Engine - Autoscaling with Terraform and Packer
 ==========
 
 Using Terraform and Packer to bootstrap a google cloud autoscaling group.
