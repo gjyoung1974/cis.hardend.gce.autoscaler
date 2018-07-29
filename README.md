@@ -67,26 +67,13 @@ take note of this for the next step. In your watch command, you should see somet
 
 ```
 NAME               ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
-tf-demo-demo-2qy2  us-central1-a  f1-micro                   10.128.0.3   146.148.87.56   RUNNING
-tf-demo-demo-u4il  us-central1-a  f1-micro                   10.128.0.2   130.211.192.55  RUNNING
+acme-2qy2  us-west2-a  f1-micro                   10.128.0.3   146.148.87.56   RUNNING
+acme-u4il  us-west2-a  f1-micro                   10.128.0.2   130.211.192.55  RUNNING
 ```
 
 Our `google_compute_autoscaler` is configured with minimum instance count of two, and a maximum of ten.
 The next step is to generate some traffic to trigger scaling of the instance group.
 
-We can test the instance pool with `curl`:
-
-```sh
-curl <your_pool_public_ip>
-```
-
-And you should see
-
-```
-This instance was provisioned by Packer
-```
-
-Which is the message we wrote to `/usr/share/nginx/html/index.html` during Packer provisioning.
 
 #### Triggering Autoscaling
 
