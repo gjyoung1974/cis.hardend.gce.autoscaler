@@ -6,7 +6,7 @@ Using Terraform and Packer to bootstrap a google cloud autoscaling group.
 Running the project
 -------------------
 
-#### Prerequistes
+#### Prerequistes    
 
 - [Install Packer](https://www.packer.io/intro/getting-started/setup.html)
 - [Install Terraform](https://www.terraform.io/intro/getting-started/install.html)
@@ -24,36 +24,9 @@ Running the project
     - Google Compute Engine Instance Group Updater API
     - Google Compute Engine Instance Groups API
 
-#### tl;dr
-
-The walkthrough below is pretty involved. If you want to jump right in:
-
-```sh
-cp terraform.tfvars.example terraform.tfvars
-packer build packer.json # outputs image_name
-terraform apply -var base_image=<image_name> # outputs pool_public_ip
-curl <pool_public_ip>
-./spam.sh <pool_public_ip>
-watch -d gcloud compute instances list
-```
-
-Clean up with 
-
-```
-terraform destroy
-gcloud compute images list --regexp packer-tf-demo.* | tail -n +2 | cut -d' ' -f 1 | xargs gcloud compute images delete
-```
-
-
 #### Walkthrough
 
-First, you'll want to copy the example variables file:
-
-```sh
-cp terraform.tfvars.example terraform.tfvars
-```
-
-If you want to tweak the project name, region, or any paths in `terraform.tfvars`, now is a good time.
+Tweak the project name, region, or any paths in `terraform.tfvars`.
 
 Next, Use packer to build a GCE image:
 
@@ -167,14 +140,11 @@ Or, in one line:
 gcloud compute images list --regexp packer-tf-demo.* | tail -n +2 | cut -d' ' -f 1 | xargs gcloud compute images delete
 ```
 
-
 #### Gotchas
 
-1. It seems like the forwarding rule used here is pretty dumb,
-   it sometimes routes traffic to hosts that aren't ready yet. There's a short
-   period (~ a few seconds) where a host is "Running" but wont serve requests properly. If a `curl`
-   request hangs, you're best off killing the request and retrying.
+1. The forwarding rule used here is not very robust,
+   as in: it sometimes routes traffic to hosts that aren't ready yet. There's a short
+   period (~ a few seconds) where a host is "Running" but wont serve requests properly. If a `curl` request hangs, you're best off killing the request and retrying.
 
-2. As mentioned in *Prerequisites*, you will likely see some errors about needing to enable certain 
-  Google Cloud Platform APIs. In general, these can be enabled by navigating to the URL in the error output,
-  Enabling the API, and then re-running any failed commands.
+1. As mentioned in *Prerequisites*, you may see errors about needing to enable certain 
+  Google Cloud Platform APIs. In general, these can be enabled by navigating to the URL in the error output, enabling the API, and then re-running any failed commands.
