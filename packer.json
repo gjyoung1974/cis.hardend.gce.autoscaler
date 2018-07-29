@@ -11,9 +11,10 @@
       "source_image": "centos-7-v20180716",
       "zone": "us-west2-a",
       "image_name": "acme-centos7-base-{{timestamp}}",
-      "image_description":"acme-hardened-centos7"
+      "image_description":"acme-hardened-centos7{{timestamp}}",
+      "machine_type": "f1-micro"
     }
-  ],
+],
   "provisioners": [
     {
       "type": "file",

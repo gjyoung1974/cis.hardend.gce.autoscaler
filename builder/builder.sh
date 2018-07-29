@@ -15,20 +15,20 @@ run_command () {
     fi
 }
 
-setup_beanstalk_base() {
+setup_base() {
     echo "Creating base directories for platform."
-    mkdir -p $BEANSTALK_DIR/deploy/appsource/
+    mkdir -p $APP_DIR/deploy/appsource/
     mkdir -p /var/app/staging
     mkdir -p /var/app/current
     mkdir -p /var/log/nginx/healthd/
     mkdir -p /var/log/tomcat/
 
-    echo "Setting permissions in /opt/elasticbeanstalk"
-    find /opt/elasticbeanstalk -type d -exec chmod 755 {} \; -print
-    chown -R root:root /opt/elasticbeanstalk/
+    echo "Setting permissions in /opt/appdir"
+    find /opt/appdir -type d -exec chmod 755 {} \; -print
+    chown -R root:root /opt/appdir/
 
     echo "Setting permissions for shell scripts"
-    find /opt/elasticbeanstalk/ -name "*.sh" -exec chmod 755 {} \; -print
+    find /opt/appdir/ -name "*.sh" -exec chmod 755 {} \; -print
 }
 
 set_permissions() {
@@ -38,17 +38,9 @@ set_permissions() {
 }
 
 
-wait_for_cloudinit() {
-    echo "Waiting for cloud init to finish bootstrapping.."
-    until [ -f /var/lib/cloud/instance/boot-finished ]; do
-        echo "Still bootstrapping.. sleeping. "
-        sleep 3;
-    done
-}
-
 prepare_platform_base() {
-    # TODO: split EB image creation
-    #setup_beanstalk_base
+    # TODO: split image creation
+    setup_base
     set_permissions
 }
 
@@ -77,16 +69,15 @@ run_ansible_provisioning_plays(){
 
 cleanup() {
     echo "Done all customization of packer instance. Cleaning up"
-    apt-get clean && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    yum -y clean all && sudo rm -rf /tmp/* /var/tmp/*
     rm -rf $BUILDER_DIR
 }
 
 echo "Running packer builder script"
-#wait_for_cloudinit # port this to GCP
-#prepare_platform_base
-#sync_platform_uploads
+prepare_platform_base
+sync_platform_uploads
 run_setup_scripts
 # get galaxy roles
 # run_ansible_provisioning_plays
-#cleanup
+cleanup
 # set_permissions

@@ -6,7 +6,7 @@
     - { role: verygood.ossec-agent,
         ossec_agent_register: no
       }
-    - aws-inspector
-    - monit
-    - fluentd
-    - ntp
+    # - monit
+    # - fluentd
+    # - ntp
+    
