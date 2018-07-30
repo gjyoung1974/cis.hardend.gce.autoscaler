@@ -1,6 +1,5 @@
 terraform.tfstate*
 terraform.tfvars
 .terraform
-build.hwm
-build.pwd
-build.pwi
+build.*
+clean.*
