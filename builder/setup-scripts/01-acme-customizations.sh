@@ -6,12 +6,13 @@ sudo yum -y update
 
 # install base packages
 sudo yum -y install  \
+  ansible \
   tmux \
   htop \
   vim \
   unzip \
   jq
-
+  
 # hack, remove existing ansible, resolve a strange bug
 # sudo rm -rf /usr/local/lib/python2.7/dist-packages/ansible*
 

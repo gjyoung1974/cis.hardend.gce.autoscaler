@@ -1,9 +1,9 @@
 #!/bin/bash -xe
 
+APP="nginx"
+APP_DIR=/opt/$APP
+
 BUILDER_DIR="/tmp/builder"
-
-. $BUILDER_DIR/CONFIG
-
 
 run_command () {
     echo "Running script [$1]"
@@ -17,7 +17,9 @@ run_command () {
 
 setup_base() {
     echo "Creating base directories for platform."
+    mkdir -p $APP_DIR
     mkdir -p $APP_DIR/deploy/appsource/
+    mkdir -p /opt/appdir
     mkdir -p /var/app/staging
     mkdir -p /var/app/current
     mkdir -p /var/log/nginx/healthd/
@@ -37,9 +39,7 @@ set_permissions() {
     chown root:root /tmp
 }
 
-
 prepare_platform_base() {
-    # TODO: split image creation
     setup_base
     set_permissions
 }
@@ -72,12 +72,13 @@ cleanup() {
     yum -y clean all && sudo rm -rf /tmp/* /var/tmp/*
     rm -rf $BUILDER_DIR
 }
-
-echo "Running packer builder script"
+echo "Preparing base"
 prepare_platform_base
-sync_platform_uploads
+echo "Running packer builder script"
 run_setup_scripts
-# get galaxy roles
-# run_ansible_provisioning_plays
+echo "Running ansible plays"
+run_ansible_provisioning_plays
+echo "Running cleanup"
 cleanup
-# set_permissions
+echo "Setting permissions"
+set_permissions

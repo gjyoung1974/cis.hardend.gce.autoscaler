@@ -1,8 +1,0 @@
-########################
-# $BUILDER_DIR is a magic property set by the builder.sh script automatically
-#########################
-
-####################
-### SECURE LINUX ###
-####################
-USE_SELINUX=false
