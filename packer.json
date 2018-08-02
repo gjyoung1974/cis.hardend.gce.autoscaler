@@ -18,8 +18,8 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "builder",
-      "destination": "/tmp/"
+      "source": "builder/platform-uploads",
+      "destination": "/tmp/builder"
     },
     {
       "type": "shell",
