@@ -30,5 +30,5 @@ variable "private_key_path" {
 
 variable "base_image" {
   description = "Name of Base Image for Packer Run"
-  default = "acme-ubuntu-1804-bionic-base-1533266397"
+  default = "acme-ubuntu-1804-bionic-base-1533305626"
 }

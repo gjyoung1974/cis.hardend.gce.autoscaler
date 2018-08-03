@@ -42,7 +42,7 @@ resource "google_compute_instance_group_manager" "acme" {
 
   instance_template  = "${google_compute_instance_template.acme.self_link}"
   target_pools       = ["${google_compute_target_pool.acme.self_link}"]
-  base_instance_name = "acme-centos7"
+  base_instance_name = "acme-ubuntu"
 }
 
 resource "google_compute_http_health_check" "acme" {
