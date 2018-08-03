@@ -59,6 +59,8 @@ run_setup_scripts() {
 run_ansible_provisioning_plays(){
     pushd $BUILDER_DIR
     echo `pwd`
+    sudo mkdir -p /etc/ansible
+    sudo echo 'localhost ansible_connection=local' > /etc/ansible/hosts
     echo `ansible --version`
     echo "Starting hardening and base ansible roles implementation"
     ansible-playbook /tmp/builder/tmp/playbook.yml \

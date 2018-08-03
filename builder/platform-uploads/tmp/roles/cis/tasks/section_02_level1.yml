@@ -1,0 +1,118 @@
+---
+
+  - name: 2.1 Create Separate Partition for /tmp (Scored)
+    debug: msg="/!\ Ensure there is a separate partition dedicated to /tmp"
+    tags:
+      - section2
+      - section2.1
+
+  - name: 2.2 - 4 Set nodev, nosuid, noexec option for /tmp Partition (Scored)
+    mount: name="/tmp" state="mounted" opts="nodev,nosuid,noexec"
+    when: partitioning == True
+    tags:
+      - section2
+      - section2.2
+      - section2.3
+      - section2.4
+
+  - name: 2.5 Create Separate Partition for /var (Scored)
+    debug: msg="/!\ Ensure there is a separate partition dedicated to /var"
+    tags:
+      - section2
+      - section2.5
+
+  - name: 2.6 Bind Mount the /var/tmp directory to /tmp (Scored)
+    mount: name="/var/tmp" src="/tmp" opts=bind state=mounted
+    when: partitioning == True
+    tags:
+      - section2
+      - section2.6
+
+  - name: 2.7 Create Separate Partition for /var/log (Scored)
+    debug: msg="/!\ Ensure there is a separate partition dedicated to /var/log"
+    tags:
+      - section2
+      - section2.7
+
+  - name: 2.8 Create Separate Partition for /var/log/audit (Scored)
+    debug: msg="/!\ Ensure there is a separate partition dedicated to /var/log/audit"
+    tags:
+      - section2
+      - section2.8
+
+  - name: 2.9 Create Separate Partition for /home (Scored)
+    debug: msg="/!\ Ensure there is a separate partition dedicated to /home"
+    tags:
+      - section2
+      - section2.9
+
+  - name: 2.10 Add nodev Option to /home (Scored)
+    mount: name:/home state:mounted opts:remount,nodev
+    when: partitioning == True
+    tags:
+      - section2
+      - section2.10
+
+  - name: 2.11 Add nodev Option to Removable Media Partitions (Not Scored)
+    debug: msg="/!\ Ensure removable partitions have nodev option"
+    tags:
+      - section2
+      - section2.11
+
+  - name: 2.12 Add noexec Option to Removable Media Partitions (Not Scored)
+    debug: msg="/!\ Ensure removable partitions have noexec option"
+    tags:
+      - section2
+      - section2.12
+
+  - name: 2.13 Add nosuid Option to Removable Media Partitions (Not Scored)
+    debug: msg="/!\ Ensure removable partitions have nosuid option"
+    tags:
+      - section2
+      - section2.13
+
+  - name: 2.14 - 16 Add nodev Option to /run/shm Partition (Scored)
+    mount: name="/run/shm" src="/run/shm" state="mounted" opts="nodev,nosuid,noexec" fstype="tmpfs"
+    tags:
+      - section2
+      - section2.14
+      - section2.15
+      - section2.16
+
+  - name: 2.17.1 Set Sticky Bit on All World-Writable Directories (preparation) (Scored)
+    shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 -print 2>/dev/null
+    failed_when: False
+    changed_when: False
+    always_run: True
+    register: sticky_bit_dirs
+    tags:
+      - section2
+      - section2.17
+      - section2.17.1
+
+  - name: 2.17.2 Set Sticky Bit on All World-Writable Directories (Scored)
+    file: path='{{ item }}' mode="a+t"
+    with_items: sticky_bit_dirs.stdout_lines
+    tags:
+      - section2
+      - section2.17
+      - section2.17.2
+
+  - name: 2.25 Disable Automounting (stat) (Scored)
+    stat: >
+        path=/etc/init/autofs.conf
+    register: autofs_file
+    tags:
+      - section2
+      - section2.25
+      
+  - name: 2.25 Disable Automounting (Scored)
+    lineinfile: >
+        dest=/etc/init/autofs.conf
+        line='#start on runlevel [2345]'
+        regexp='start on runlevel'
+        state=present
+    when: autofs_file.stat.exists == True
+    tags:
+      - section2
+      - section2.25
