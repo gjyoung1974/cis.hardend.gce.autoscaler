@@ -5,6 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 sudo apt-get update -y
 sudo apt-get install -y curl software-properties-common
+sudo apt-add-repository -y ppa:ansible/ansible
 
 # Update base
 sudo apt-get update -y
@@ -14,6 +15,7 @@ sudo apt-get -y \
 
 # install base packages
 sudo apt-get install -y --force-yes \
+  ansible \
   xfsprogs \
   tmux \
   htop \
@@ -23,15 +25,15 @@ sudo apt-get install -y --force-yes \
   jq
 
 # install a sane python sitewide
-sudo apt-get install -y build-essential python-dev  ipython python-setuptools libffi-dev libssl-dev
+sudo apt-get install -y build-essential python-dev python-pip ipython python-setuptools libffi-dev libssl-dev
 
 # hack, remove existing ansible to resolve a bug
 sudo rm -rf /usr/local/lib/python2.7/dist-packages/ansible*
 
 # TODO: move all pip packages into setup.py
-sudo easy_install pip
-sudo pip install setuptools -U
-sudo pip install awscli con-fu netaddr ansible==2.2
+# sudo easy_install pip
+# sudo pip install setuptools -U
+# sudo pip install awscli con-fu netaddr ansible==2.2
 
 # Update to Linux HWE/LTS to reolve Intel CVEs
 # https://wiki.ubuntu.com/SecurityTeam/KnowledgeBase/SpectreAndMeltdown

@@ -61,15 +61,15 @@ run_ansible_provisioning_plays(){
     echo `pwd`
     echo `ansible --version`
     echo "Starting hardening and base ansible roles implementation"
-    # ansible-playbook playbook.yml \
-    # -e partitioning=False \
-    # --skip-tags=\"section1.2.1,section1.3,section3.2.4,section3.2.8,section4.1,section4.3.1,section4.1.12.2,section5.2\"
+    ansible-playbook /tmp/builder/tmp/playbook.yml \
+    -e partitioning=False \
+    --skip-tags=\"section1.2.1,section1.3,section3.2.4,section3.2.8,section4.1,section4.3.1,section4.1.12.2,section5.2\"
     popd
 }
 
 cleanup() {
     echo "Done all customization of packer instance. Cleaning up"
-    yum -y clean all && sudo rm -rf /tmp/* /var/tmp/*
+    # yum -y clean all && sudo rm -rf /tmp/* /var/tmp/*
     rm -rf $BUILDER_DIR
 }
 # echo "Sync data"

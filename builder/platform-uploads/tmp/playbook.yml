@@ -1,7 +1,7 @@
 ---
 - hosts: all
   roles:
-    - rhel
+    - cis
     # - ansible-fail2ban
     # - { role: acme.ossec-agent,
     #     ossec_agent_register: no
