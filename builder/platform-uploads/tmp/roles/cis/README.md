@@ -1,40 +1,43 @@
-CIS for Ubuntu 14.04
-====================
+# Ansible role for hardening Ubuntu 14.04
 
-[![Build Status](https://travis-ci.org/awailly/cis-ubuntu-ansible.svg?branch=master)](https://travis-ci.org/awailly/cis-ubuntu-ansible)
+```Based on CIS  CIS Ubuntu Linux 14.04 LTS Benchmark v2.0.0 - 09-30-2016
+2017 prepared by Gordon Young gordon.young@vgs.io
+```
+See this quip for more detail: https://quip.com/pPFOAaTsp8ba
 
-Usage
------
+## Manual installation
 
-Create a placeholder:
+Install dependencies on your host (on Ubuntu 14.04):
 
-    mkdir ansible
-    cd ansible
-    git clone https://github.com/awailly/cis-ubuntu-ansible.git
-    mkdir roles-ubuntu
-    cd roles-ubuntu
-    mkdir roles
-    ln -s ~/ansible/cis-ubuntu-ansible roles/cis
+```bash
+$ sudo apt-get install python-pip git python-dev
+$ sudo pip install ansible markupsafe
+```
 
-Create a playbook:
+Create a placeholder to describe your machine:
 
-    cat playbook.yml
-    ---
-    - hosts: all
-      roles:
-        - { role:cis, when: "ansible_version.full | version_compare('1.8', '>=')" }
+```bash
+$ mkdir -p ansible/roles-ubuntu/roles
+$ cd ansible/roles-ubuntu
+$ git clone https://github.com/gjyoung1974/cis-ubuntu-14-04-2-0.git roles/cis
+```
 
-Create a file containing hosts:
+Create a playbook in the _roles-ubuntu_ folder:
 
-    cat inventory.txt
-    [projet]
-    172.30.3.7
+```bash
+$ cat >>  playbook.yml << 'EOF'
+---
+- hosts: all
+  roles:
+    - cis
+EOF
+```
 
-Run the playbook with a version of ansible higher than 1.8:
+### Running the role
 
-    ansible-playbook -e "pipelining=True" -s -u ubuntu --private-key=~/.ssh/id_rsa -i ./inventory.txt playbook.yml
+Replace the target information (USER, IPADDRESS) and run the playbook with a version of ansible higher than 1.8:
 
-CONTRIBUTING
-------------
+   $ ansible-playbook -C -b -u <Username> -b --ask-become-pass -i 'IPADDR,' playbook.yml
 
-I need your github handle!
+Note that this command will perform modifications on the target. Add the `-C` option to only check for modifications and audit the system. However, some tasks cannot be audited as they need to register a variable on the target and thus modify the system.
+

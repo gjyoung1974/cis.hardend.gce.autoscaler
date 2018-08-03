@@ -1,11 +1,9 @@
 ---
 
-  - include: section_02_level1.yml
+  - include: section_02_1.yml
     tags:
       - section02
-      - level1
+      - _1
 
-  - include: section_02_level2.yml
-    tags:
-      - section02
-      - level2
+
+

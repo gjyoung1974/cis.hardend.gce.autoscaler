@@ -4,10 +4,10 @@ allow_duplicates: no
 
 
 galaxy_info:
-  author: Aurélien Wailly
-  description: Ansible role to meet CIS (Center for Internet Security) requirements on ubuntu
-  license: GPLv2
-  min_ansible_version: 1.6
+  author: Gordon Young
+  # 2017 VGS - Gordon Young, gordon.young@verygoodsecurity.com
+  description: Configure Unbuntu 14.04 LTS Security based on CIS for Ubuntu Linux 14.04 LTS Benchmark v2.0.0 - 09-30-2016
+  min_ansible_version: 1.9.0.1
   platforms:
     - name: Ubuntu
       versions:

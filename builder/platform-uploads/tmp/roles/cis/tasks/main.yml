@@ -1,5 +1,7 @@
 ---
 
+  - include: check_requirements.yml
+
   - include: section_01.yml
     tags: section01
 
@@ -9,6 +11,7 @@
   - include: section_03.yml
     tags: section03
 
+  # TODO fix the broken sections of 4.x 4.1.12.2 Collect Use of Privileged Commands (infos)
   - include: section_04.yml
     tags: section04
 
@@ -17,25 +20,4 @@
 
   - include: section_06.yml
     tags: section06
-
-  - include: section_07.yml
-    tags: section07
-
-  - include: section_08.yml
-    tags: section08
-
-  - include: section_09.yml
-    tags: section09
-
-  - include: section_10.yml
-    tags: section10
-
-  - include: section_11.yml
-    tags: section11
-
-  - include: section_12.yml
-    tags: section12
-
-  - include: section_13.yml
-    tags: section13
 
