@@ -1,7 +1,7 @@
 # Ansible role for hardening Ubuntu 14.04
 
 ```Based on CIS  CIS Ubuntu Linux 14.04 LTS Benchmark v2.0.0 - 09-30-2016
-2017 prepared by Gordon Young gjyoung19974@gmail.com
+2018 prepared by Gordon Young gjyoung1974@gmail.com
 ```
 
 ## Manual installation
